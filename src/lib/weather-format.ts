@@ -58,7 +58,7 @@ export const WeatherFormatter = {
   formatWind(
     speed: number,
     degrees: number,
-    unit: "m/s" | "km/h" = "m/s"
+    unit: "m/s" | "km/h" = "m/s",
   ): string {
     const speedFormatted = this.formatWindSpeed(speed, unit);
     const direction = this.getWindDirection(degrees);

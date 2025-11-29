@@ -18,7 +18,7 @@ watch(cities, (value) => storage.set(STORAGE_KEY, value), { deep: true });
 export function useSettings() {
   console.log(cities);
   const cityNames = computed(() =>
-    [...cities].sort((a, b) => a.order - b.order).map((c) => c.name)
+    [...cities].sort((a, b) => a.order - b.order).map((c) => c.name),
   );
 
   function addCity(name: string) {

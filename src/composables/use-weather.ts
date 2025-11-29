@@ -15,7 +15,7 @@ export function useWeather(apiKey: string) {
 
     isLoading.value = true;
     weatherData.value = await weatherService.getCurrentWeatherByCities(
-      cityNames.value
+      cityNames.value,
     );
     isLoading.value = false;
   }

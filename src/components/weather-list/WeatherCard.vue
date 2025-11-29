@@ -38,7 +38,7 @@ defineProps<WeatherCardProps>();
         :value="
           WeatherFormatter.formatWind(
             weatherData.wind.speed,
-            weatherData.wind.deg
+            weatherData.wind.deg,
           )
         "
       />

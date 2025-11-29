@@ -1,39 +1,39 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { VueLoaderPlugin } = require('vue-loader');
-const webpack = require('webpack');
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { VueLoaderPlugin } = require("vue-loader");
+const webpack = require("webpack");
 
 module.exports = (env, argv) => {
-  const isDev = argv.mode === 'development';
+  const isDev = argv.mode === "development";
 
   return {
-    entry: './src/main.ts',
+    entry: "./src/main.ts",
     output: {
-      path: path.resolve(__dirname, 'dist'),
-      filename: 'weather-widget.js',
+      path: path.resolve(__dirname, "dist"),
+      filename: "weather-widget.js",
       library: {
-        name: 'WeatherWidget',
-        type: 'umd',
+        name: "WeatherWidget",
+        type: "umd",
         umdNamedDefine: true,
       },
-      globalObject: 'this',
+      globalObject: "this",
       clean: true,
     },
     resolve: {
-      extensions: ['.ts', '.tsx', '.js', '.vue', '.json'],
+      extensions: [".ts", ".tsx", ".js", ".vue", ".json"],
       alias: {
-        '@': path.resolve(__dirname, 'src'),
+        "@": path.resolve(__dirname, "src"),
       },
     },
     module: {
       rules: [
         {
           test: /\.vue$/,
-          loader: 'vue-loader',
+          loader: "vue-loader",
         },
         {
           test: /\.tsx?$/,
-          loader: 'ts-loader',
+          loader: "ts-loader",
           options: {
             appendTsSuffixTo: [/\.vue$/],
           },
@@ -41,16 +41,16 @@ module.exports = (env, argv) => {
         },
         {
           test: /\.js$/,
-          loader: 'babel-loader',
+          loader: "babel-loader",
           exclude: /node_modules/,
         },
         {
           test: /\.css$/,
-          use: ['style-loader', 'css-loader'],
+          use: ["style-loader", "css-loader"],
         },
         {
           test: /\.scss$/,
-          use: ['style-loader', 'css-loader', 'sass-loader'],
+          use: ["style-loader", "css-loader", "sass-loader"],
         },
       ],
     },
@@ -62,20 +62,20 @@ module.exports = (env, argv) => {
         __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: JSON.stringify(false),
       }),
       new HtmlWebpackPlugin({
-        template: './public/index.html',
-        inject: 'body',
-        scriptLoading: 'blocking',
+        template: "./public/index.html",
+        inject: "body",
+        scriptLoading: "blocking",
       }),
     ],
     devServer: {
       static: {
-        directory: path.join(__dirname, 'public'),
+        directory: path.join(__dirname, "public"),
       },
       compress: true,
       port: 8080,
       hot: true,
       open: true,
     },
-    devtool: isDev ? 'eval-source-map' : false,
+    devtool: isDev ? "eval-source-map" : false,
   };
 };

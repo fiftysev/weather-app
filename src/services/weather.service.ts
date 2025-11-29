@@ -11,13 +11,13 @@ export class WeatherService {
   }
 
   private async getCurrentWeatherByCity(
-    cityName: string
+    cityName: string,
   ): Promise<OpenWeather.WeatherResponse | null> {
     try {
       const response = await fetch(
         `${BASE_API_URL}?q=${cityName}&units=${this.#units}&appid=${
           this.#apiKey
-        }`
+        }`,
       );
       return (await response.json()) as OpenWeather.WeatherResponse;
     } catch (e) {

@@ -17,6 +17,7 @@ const { weatherData, isLoading } = useWeather(props.apiKey);
 
 <template>
   <section class="weather-widget">
+    <div class="actions"></div>
     <span v-if="isLoading">Loading...</span>
     <WeatherList v-else-if="weatherData" :data="weatherData" :layout="layout" />
   </section>
@@ -35,5 +36,12 @@ const { weatherData, isLoading } = useWeather(props.apiKey);
 
   border-radius: var(--default-radius);
   overflow: auto;
+
+  .actions {
+    width: 100%;
+
+    display: flex;
+    justify-content: end;
+  }
 }
 </style>
