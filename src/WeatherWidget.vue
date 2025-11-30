@@ -12,6 +12,7 @@ import { useWeather } from "./composables/use-weather";
 import { useWidgetState, WidgetState } from "./composables/use-widget-state";
 
 import { weatherService } from "./services/weather.service";
+import { useSettings } from "./composables/use-settings";
 
 type WeatherWidgetProps = {
   apiKey?: string;
@@ -35,14 +36,12 @@ onMounted(() => {
 });
 
 const { weatherData, isLoading } = useWeather();
+const { cityNames } = useSettings();
 </script>
 
 <template>
   <section class="weather-widget">
-    <template v-if="!apiKey">
-      <span>No api key provided</span>
-    </template>
-    <template v-else-if="widgetState === WidgetState.View">
+    <template v-if="widgetState === WidgetState.View">
       <div class="actions">
         <UIconButton @click="() => setWidgetState(WidgetState.Settings)">
           <template #icon>
@@ -50,7 +49,17 @@ const { weatherData, isLoading } = useWeather();
           </template>
         </UIconButton>
       </div>
-      <span v-if="isLoading">Loading...</span>
+      <div class="info-state" v-if="!apiKey || !cityNames?.length">
+        <template v-if="!apiKey">
+          <Icon icon="material-symbols:warning" width="24" />
+          <span>No API key provided.</span>
+        </template>
+        <template v-else-if="!cityNames?.length">
+          <Icon icon="material-symbols:warning" width="24" />
+          <span>No cities added. Add a new one in Settings.</span>
+        </template>
+      </div>
+      <span v-else-if="isLoading">Loading...</span>
       <WeatherList
         v-else-if="weatherData"
         :data="weatherData"
@@ -90,6 +99,12 @@ const { weatherData, isLoading } = useWeather();
     right: var(--size-s);
 
     @include m.row($justify: flex-end, $gap: 0);
+  }
+
+  .info-state {
+    @include m.column($align: center, $justify: center);
+    height: 100%;
+    color: var(--text-secondary);
   }
 }
 </style>
