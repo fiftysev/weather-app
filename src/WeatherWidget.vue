@@ -49,7 +49,7 @@ const { cityNames } = useSettings();
           </template>
         </UIconButton>
       </div>
-      <div class="info-state" v-if="!apiKey || !cityNames?.length">
+      <div class="info-state" v-if="!apiKey || !cityNames?.length || isLoading">
         <template v-if="!apiKey">
           <Icon icon="material-symbols:warning" width="24" />
           <span>No API key provided.</span>
@@ -58,8 +58,8 @@ const { cityNames } = useSettings();
           <Icon icon="material-symbols:warning" width="24" />
           <span>No cities added. Add a new one in Settings.</span>
         </template>
+        <span v-else-if="isLoading">Loading...</span>
       </div>
-      <span v-else-if="isLoading">Loading...</span>
       <WeatherList
         v-else-if="weatherData"
         :data="weatherData"
