@@ -5,10 +5,10 @@ import { storage } from "@/lib/storage";
 const STORAGE_KEY = "weather-cities";
 
 const DEFAULT_CITIES: CityConfig[] = [
-  { id: "1", name: "Vladivostok", order: 0 },
-  { id: "2", name: "New York", order: 1 },
-  { id: "3", name: "Moscow", order: 2 },
-  { id: "4", name: "Saint Petersburg", order: 3 },
+  // { id: "1", name: "Vladivostok", order: 0 },
+  // { id: "2", name: "New York", order: 1 },
+  // { id: "3", name: "Moscow", order: 2 },
+  // { id: "4", name: "Saint Petersburg", order: 3 },
 ];
 
 const cities = reactive<CityConfig[]>(storage.get(STORAGE_KEY, DEFAULT_CITIES));
@@ -16,10 +16,7 @@ const cities = reactive<CityConfig[]>(storage.get(STORAGE_KEY, DEFAULT_CITIES));
 watch(cities, (value) => storage.set(STORAGE_KEY, value), { deep: true });
 
 export function useSettings() {
-  console.log(cities);
-  const cityNames = computed(() =>
-    [...cities].sort((a, b) => a.order - b.order).map((c) => c.name),
-  );
+  const cityNames = computed(() => cities.map((city) => city.name));
 
   function addCity(name: string) {
     cities.push({
@@ -35,10 +32,12 @@ export function useSettings() {
   }
 
   function reorderCities(ids: string[]) {
-    ids.forEach((id, index) => {
-      const city = cities.find((c) => c.id === id);
-      if (city) city.order = index;
-    });
+    const reordered = ids
+      .map((id) => cities.find((c) => c.id === id))
+      .filter((c): c is CityConfig => c !== undefined)
+      .map((city, index) => ({ ...city, order: index }));
+
+    cities.splice(0, cities.length, ...reordered);
   }
 
   return {

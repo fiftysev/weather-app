@@ -19,7 +19,11 @@ export class WeatherService {
           this.#apiKey
         }`,
       );
-      return (await response.json()) as OpenWeather.WeatherResponse;
+      if (response.ok) {
+        return (await response.json()) as OpenWeather.WeatherResponse;
+      } else {
+        throw new Error(JSON.stringify(await response.json()));
+      }
     } catch (e) {
       if (e instanceof Error) {
         console.error(`Openweather API Error: ${e.message}`);
