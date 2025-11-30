@@ -8,8 +8,6 @@
   flex-grow: $grow;
 }
 
-
-
 @mixin column($gap: 8px, $align: stretch, $justify: flex-start, $wrap: nowrap, $shrink: 0, $grow: 0) {
   display: flex;
   flex-direction: column;

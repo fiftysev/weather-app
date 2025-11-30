@@ -60,9 +60,9 @@ function handleInputChange() {
         :city="city"
         :is-drag-over="index === dragState.dragOverIndex"
         @delete="removeCity"
-        @dragstart="(e) => handleDragStart(index)"
-        @dragover="(e) => handleDragOver(index)"
-        @drop="(e) => handleDrop(index, cities)"
+        @dragstart="() => handleDragStart(index)"
+        @dragover="() => handleDragOver(index)"
+        @drop="() => handleDrop(index, cities)"
         @dragend="handleDragEnd"
       />
     </div>
