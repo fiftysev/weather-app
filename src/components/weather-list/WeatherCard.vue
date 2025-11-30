@@ -59,22 +59,20 @@ defineProps<WeatherCardProps>();
 </template>
 
 <style scoped lang="scss">
+@use "@/assets/mixins" as m;
+
 .weather-card {
   width: 100%;
   min-width: 200px;
 
-  display: flex;
-  flex-direction: column;
-  gap: var(--size-s);
+  @include m.column($gap: var(--size-s));
 
   .title {
     font-weight: 600;
   }
 
   .base-data {
-    display: flex;
-    align-items: center;
-    gap: var(--size-s);
+    @include m.row($align: center, $gap: var(--size-s));
 
     .icon {
       width: 64px;
@@ -96,7 +94,7 @@ defineProps<WeatherCardProps>();
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--size-s);
 
-    margin-top: 12px;
+    margin-top: var(--size-m);
   }
 }
 </style>

@@ -1,6 +1,4 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <button class="icon-button" v-bind="$attrs">
@@ -9,10 +7,9 @@
 </template>
 
 <style scoped lang="scss">
+@use "@/assets/mixins" as m;
 .icon-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include m.row($justify: center, $align: center, $gap: 0);
 
   aspect-ratio: 1/1;
   padding: var(--size-s);

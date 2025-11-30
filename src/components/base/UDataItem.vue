@@ -15,9 +15,10 @@ defineProps<UDataItemProps>();
 </template>
 
 <style scoped lang="scss">
+@use "@/assets/mixins" as m;
+
 .u-data-item {
-  display: flex;
-  flex-direction: column;
+  @include m.column($gap: 0);
 
   .label {
     font-size: 10px;

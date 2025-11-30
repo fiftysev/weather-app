@@ -1,17 +1,20 @@
 <script setup lang="ts">
 import "./assets/main.scss";
 
+import { computed, onMounted } from "vue";
 import { Icon } from "@iconify/vue";
 
-import { useWeather } from "./composables/use-weather";
-import { WeatherList } from "./components/weather-list";
 import { UIconButton } from "./components/base";
-import { computed } from "vue";
-import WidgetSettings from "./components/WidgetSettings.vue";
+import { WeatherList } from "./components/weather-list";
+import { WidgetSettings } from "./components/widget-settings";
+
+import { useWeather } from "./composables/use-weather";
 import { useWidgetState, WidgetState } from "./composables/use-widget-state";
 
+import { weatherService } from "./services/weather.service";
+
 type WeatherWidgetProps = {
-  apiKey: string;
+  apiKey?: string;
   layout?: "column" | "row";
 };
 
@@ -25,12 +28,21 @@ const widgetHeight = computed(() =>
   props.layout === "column" ? "450px" : "270px",
 );
 
-const { weatherData, isLoading } = useWeather(props.apiKey);
+onMounted(() => {
+  if (props.apiKey) {
+    weatherService.initialize(props.apiKey);
+  }
+});
+
+const { weatherData, isLoading } = useWeather();
 </script>
 
 <template>
   <section class="weather-widget">
-    <template v-if="widgetState === WidgetState.View">
+    <template v-if="!apiKey">
+      <span>No api key provided</span>
+    </template>
+    <template v-else-if="widgetState === WidgetState.View">
       <div class="actions">
         <UIconButton @click="() => setWidgetState(WidgetState.Settings)">
           <template #icon>
@@ -52,6 +64,8 @@ const { weatherData, isLoading } = useWeather(props.apiKey);
 </template>
 
 <style scoped lang="scss">
+@use "@/assets/mixins" as m;
+
 .weather-widget {
   position: relative;
   width: 400px;
@@ -62,20 +76,20 @@ const { weatherData, isLoading } = useWeather(props.apiKey);
   padding: var(--size-m);
 
   font-family: sans-serif;
-  background-color: var(--background-primary);
+  background-color: var(--background-base);
 
   border-radius: var(--default-radius);
 
   overflow: hidden;
 
   .actions {
+    width: 100%;
+
     position: absolute;
     bottom: var(--size-s);
     right: var(--size-s);
-    width: 100%;
 
-    display: flex;
-    justify-content: end;
+    @include m.row($justify: flex-end, $gap: 0);
   }
 }
 </style>

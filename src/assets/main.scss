@@ -2,8 +2,12 @@
   --text-primary: currentColor;
   --text-secondary: #5a5a5a;
 
-  --background-primary: #ffffff;
+  --background-base: #ffffff;
   --background-secondary: #eeeeee;
+
+  --color-primary: #2867ab;
+  --color-error: #e74c3c;
+  --color-border: var(--text-secondary);
 
   --size-xs: 4px;
   --size-s: 8px;

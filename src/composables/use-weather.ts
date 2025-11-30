@@ -1,10 +1,9 @@
-import { WeatherService } from "@/services/weather.service";
+import { weatherService } from "@/services/weather.service";
 import { WeatherMap } from "@/types/weather";
 import { onMounted, ref, watch } from "vue";
 import { useSettings } from "./use-settings";
 
-export function useWeather(apiKey: string) {
-  const weatherService = new WeatherService(apiKey);
+export function useWeather() {
   const weatherData = ref<WeatherMap | null>(null);
   const isLoading = ref(false);
 
@@ -22,6 +21,11 @@ export function useWeather(apiKey: string) {
 
   onMounted(fetchWeather);
   watch(cityNames, fetchWeather);
+  watch(cityNames, (newValue) => {
+    if (!newValue.length) {
+      weatherData.value = null;
+    }
+  });
 
   return { weatherData, isLoading };
 }

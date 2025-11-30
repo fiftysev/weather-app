@@ -1,17 +1,14 @@
 import { reactive, watch, computed, readonly } from "vue";
-import type { CityConfig } from "@/types/settings";
+import type { Settings } from "@/types/settings";
 import { storage } from "@/lib/storage";
 
 const STORAGE_KEY = "weather-cities";
 
-const DEFAULT_CITIES: CityConfig[] = [
-  // { id: "1", name: "Vladivostok", order: 0 },
-  // { id: "2", name: "New York", order: 1 },
-  // { id: "3", name: "Moscow", order: 2 },
-  // { id: "4", name: "Saint Petersburg", order: 3 },
-];
+const DEFAULT_CITIES: Settings.CityConfig[] = [];
 
-const cities = reactive<CityConfig[]>(storage.get(STORAGE_KEY, DEFAULT_CITIES));
+const cities = reactive<Settings.CityConfig[]>(
+  storage.get(STORAGE_KEY, DEFAULT_CITIES),
+);
 
 watch(cities, (value) => storage.set(STORAGE_KEY, value), { deep: true });
 
@@ -34,7 +31,7 @@ export function useSettings() {
   function reorderCities(ids: string[]) {
     const reordered = ids
       .map((id) => cities.find((c) => c.id === id))
-      .filter((c): c is CityConfig => c !== undefined)
+      .filter((c): c is Settings.CityConfig => c !== undefined)
       .map((city, index) => ({ ...city, order: index }));
 
     cities.splice(0, cities.length, ...reordered);
